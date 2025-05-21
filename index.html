@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mundo Juguetes</title>
+  <style>
+    body 
+    {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #ffcc00;
+      padding: 15px;
+    }
+
+    nav {
+      background-color: #00bcd4;
+      padding: 10px;
+    }
+
+    nav button {
+      margin: 5px;
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #fff;
+      border: 2px solid #0097a7;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    nav button:hover {
+      background-color: #0097a7;
+      color: white;
+    }
+
+    section {
+      display: none;
+      padding: 20px;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    .imagen-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .imagen-container div {
+      text-align: center;
+    }
+
+    .imagen-container img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 3px solid #ccc;
+      cursor: pointer;
+    }
+
+    .juguete-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .juguete-item img {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menú en todas las páginas -->
+  <nav>
+    <button onclick="mostrar('inicio')">Inicio</button>
+    <button onclick="mostrar('juguetes')">Juguetes</button>
+    <button onclick="mostrar('registro')">Registro</button>
+    <button onclick="mostrar('carrito')">Carrito</button>
+    <button onclick="mostrar('juegos')">Juegos</button>
+  </nav>
+
+  <!-- INICIO -->
+  <section id="inicio" class="active">
+    <header>
+      <h1>Bienvenido a Mundo Juguetes</h1>
+      <p>¡Todo un servicio completo para jugar y aprender!</p>
+    </header>
+    <p>En Mundo Juguetes, nuestro objetivo es garantizar un buen servicio con juguetes nuevos y juegos de aprendizaje para los niños. Queremos que tenga una excelente experiencia y que sea satisfactoria su entrada a nuestra respectiva empresa, porque para nosotros es un placer estar ahí para ayudarte y estar pendiente de lo que necesitas, con una seguridad y un respectivo registro para los padres y una variedad de juguetes y juegos para los niños.</p>
+    <div class="imagen-container">
+      <div onclick="mostrar('juguetes')">
+        <img src="https://cdn-icons-png.flaticon.com/512/3916/3916594.png" alt="Juguetes">
+        <p>Juguetes</p>
+      </div>
+      <div onclick="mostrar('carrito')">
+        <img src="https://cdn-icons-png.flaticon.com/512/891/891419.png" alt="Carrito">
+        <p>Carrito</p>
+      </div>
+      <div onclick="mostrar('juegos')">
+        <img src="https://cdn-icons-png.flaticon.com/512/4359/4359906.png" alt="Juegos">
+        <p>Juegos</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- JUGUETES -->
+  <section id="juguetes">
+    <h2>Catálogo de Juguetes</h2>
+    <div id="lista-juguetes"></div>
+  </section>
+
+  <!-- REGISTRO -->
+  <section id="registro">
+    <h2>Registro para Padres</h2>
+    <!-- Logotipo que se muestra al registrarse -->
+    <img id="logoRegistro" src="https://static.vecteezy.com/system/resources/previews/017/194/956/non_2x/registration-icon-free-vector.jpg" alt="Logo de Registro" style="display:none; width:150px;">
+    <p id="mensajeRegistro" style="display:none; font-weight: bold; color: green;"></p>
+
+    <form>
+      <label>Nombre:<br/><input type="text" name="nombre" required /></label><br/><br/>
+      <label>Correo:<br/><input type="email" name="correo" required /></label><br/><br/>
+      <label>Contraseña:<br/><input type="password" name="contraseña" required /></label><br/><br/>
+      <button type="submit">Registrarse</button>
+    </form>
+  </section>
+
+  <!-- CARRITO -->
+  <section id="carrito">
+    <h2>Carrito de Compras</h2>
+    <div id="contenido-carrito"></div>
+    <h3 id="total">Total: $0</h3>
+  </section>
+
+  <!-- JUEGOS -->
+  <section id="juegos">
+    <h2>Zona de Juegos Educativos</h2>
+
+    <!-- SUMAS -->
+    <div>
+      <h3>Sumas</h3>
+      <p id="preguntaSuma"></p>
+      <input type="number" id="respuestaSuma">
+      <button onclick="verificarSuma()">Verificar</button>
+      <p id="resultadoSuma"></p>
+    </div>
+
+    <!-- RESTAS -->
+    <div>
+      <h3>Restas</h3>
+      <p id="preguntaResta"></p>
+      <input type="number" id="respuestaResta">
+      <button onclick="verificarResta()">Verificar</button>
+      <p id="resultadoResta"></p>
+    </div>
+
+    <!-- REFRANES -->
+    <div>
+      <h3>Refranes</h3>
+      <p id="refranActual"></p>
+      <input type="text" id="respuestaRefran">
+      <button onclick="verificarRefran()">Verificar</button>
+      <p id="resultadoRefran"></p>
+    </div>
+  </section>
+
+  <script>
+    function mostrar(seccionId) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(seccionId).classList.add('active');
+    }
+    
+    // Juguetes
+    const juguetes = 
+    [
+      {"nombre": "Osito de Peluche","precio": 15000,"imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_963135-MLM31219403188_062019-F.jpg"},
+      {"nombre": "Tren de Madera","precio": 22000,"imagen": "https://www.calfuster.net/5124-thickbox_default/tren-london-de-madera-con-vagon-medidas-12x32x12-cm.jpg"},
+      {"nombre": "Muñeca","precio": 18000,"imagen": "https://www.elpalaciodehierro.com/on/demandware.static/-/Sites-palacio-master-catalog/default/dw48f4db54/images/43211876/large/43211876_x1.jpg"},
+      {"nombre": "Carro de Juguete","precio": 13000,"imagen": "https://images-na.ssl-images-amazon.com/images/I/7128Evo+UfL._AC_SL1500_.jpg"},
+      {"nombre": "Rompecabezas Infantil","precio": 9000,"imagen": "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaCL/115528547_01/w=800,h=800,fit=pad"},
+      {"nombre": "Bloques de Construcción","precio": 25000,"imagen": "https://m.media-amazon.com/images/I/71mnsQS0n1L._AC_SL1500_.jpg"},
+      {"nombre": "Pelota de Colores","precio": 7000,"imagen": "https://resources.claroshop.com/medios-plazavip/s2/10252/1270887/5dcdea1edd28f-pelotas-de-plastico-bigib-120-unidades-sin-bpa-7-colores-1600x1600.jpg"},
+      {"nombre": "Camión Volteo","precio": 17000,"imagen": "https://honimdonorione.org/wp-content/uploads/2020/10/223-Camion-de-juguete-volteo-grande-5-scaled.jpg"},
+      {"nombre": "Set de Cocina Infantil","precio": 20000,"imagen": "https://http2.mlstatic.com/D_NQ_NP_870797-MLU78191866346_082024-O.webp"},
+      {"nombre": "Avión de Plástico","precio": 14000,"imagen": "https://http2.mlstatic.com/D_NQ_NP_964439-MLM42625833037_072020-F.jpg"},
+      {"nombre": "Pelota Saltarina","precio": 8000,"imagen": "https://i5-mx.walmartimages.com/mg/gm/1p/images/product-images/img_large/00750627176919l.jpg?odnHeight=612&odnWidth=612&odnBg=FFFFFF"},
+      {"nombre": "Tambor Infantil","precio": 12000,"imagen": "https://drimjuguetes.vtexassets.com/arquivos/ids/454149/Tambor-Infantil-Metalizado.jpg?v=636723774175430000"},
+      {"nombre": "Lego Clásico","precio": 30000,"imagen": "https://http2.mlstatic.com/D_NQ_NP_858783-MLA82533293060_032025-O.webp"},
+      {"nombre": "Juguete de Auto para Niños","precio": 40000,"imagen": "https://m.media-amazon.com/images/I/81WDF-29muL.jpg"},
+      {"nombre": "Camión de Transporte de Autos","precio": 45000,"imagen": "https://m.media-amazon.com/images/I/71tRnPMot-L._AC_SL1500_.jpg"},
+      {"nombre": "Tren Musical Interactivo","precio": 38000,"imagen": "https://http2.mlstatic.com/D_NQ_NP_658861-MLA49855561786_052022-O.webp"},
+      {"nombre": "Autobús Didáctico","precio": 42000,"imagen": "https://copservir.vtexassets.com/arquivos/ids/1293210-800-auto?v=638491700931430000&width=800&height=auto&aspect=true"},
+      {"nombre": "Casa de Actividades para Bebés","precio": 50000,"imagen": "https://f.fcdn.app/imgs/d3e68c/jugueteriagibernau.com.uy/jugiuy/f16b/original/catalogo/18774_18774_2/800_800/casa-de-actividades-didactica-mini-house-calesita-color-multicolor-casa-de-actividades-didactica-mini-house-calesita-color-multicolor.jpg"},
+      {"nombre": "Set de Construcción STEM","precio": 55000,"imagen": "https://sps.cdtechnologia.net/28529-large_default/juego-de-construccion-stem-600-piezas-bloques-de-tubos-entrelazados-diy.jpg"},
+      {"nombre": "Set de Autos de Juguete","precio": 39000,"imagen": "https://m.media-amazon.com/images/I/812fHPZ6QUL._AC_SL1500_.jpg"},
+      {"nombre": "Pista de Tren","precio": 87450,"imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_674900-MLA40301555156_012020-F.jpg"},
+      {"nombre": "Figura de Juguete de Goma Suave","precio": 91762,"imagen": "https://tienda.jmimport.cl/img/JUEGEXC021_WEB1_350x350.jpg"},
+      {"nombre": "Juguete en Aerosol con Efecto de Fuego","precio": 34506,"imagen": "https://m.media-amazon.com/images/I/81asMcZ9YeL._AC_SL1500_.jpg"},
+      {"nombre": "Juguete de Control de Voz para Perros","precio": 38040,"imagen": "https://m.media-amazon.com/images/I/71W4efu9bwL._AC_SL1433_.jpg"},
+      {"nombre": "Peluche de Mufasa de El Rey León","precio": 69647,"imagen": "https://jugueton.com.do/media/catalog/product/cache/fde49a4ea9a339628caa0bc56aea00ff/4/1/4185977-1__1735591904.jpg"},
+      {"nombre": "Set de Peluches Kinitopet (3 piezas)","precio": 101305,"imagen": "https://m.media-amazon.com/images/I/61BJ7dtl4gL._AC_SY450_.jpg"},
+      {"nombre": "Muñeca Draculaura de Monster High","precio": 62552,"imagen": "https://i5.walmartimages.com/asr/36e73bf5-309a-4982-8781-5acec2cf6bff.2477d00c54328d0e14c1a429fc6f53a2.jpeg"}
+]; 
+
+    const carrito = [];
+
+    function renderJuguetes() {
+      const contenedor = document.getElementById("lista-juguetes");
+      contenedor.innerHTML = "";
+      juguetes.forEach((juguete, index) => {
+        contenedor.innerHTML += `
+          <div class="juguete-item">
+            <img src="${juguete.imagen}" alt="${juguete.nombre}">
+            <strong>${juguete.nombre}</strong> - $${juguete.precio}
+            <button onclick="agregarCarrito(${index})">Agregar al carrito</button>
+          </div>`;
+      });
+    }
+
+    function agregarCarrito(index) {
+      carrito.push(juguetes[index]);
+      renderCarrito();
+    }
+
+    function renderCarrito() {
+      const contenedor = document.getElementById("contenido-carrito");
+      contenedor.innerHTML = "";
+      let total = 0;
+      carrito.forEach((item, index) => {
+        total += item.precio;
+        contenedor.innerHTML += `
+          <div class="juguete-item">
+            <img src="${item.imagen}" alt="${item.nombre}">
+            <span>${item.nombre}</span> - <strong>$${item.precio}</strong>
+            <button onclick="quitarCarrito(${index})">Quitar</button>
+          </div>`;
+      });
+      document.getElementById("total").innerText = "Total: $" + total;
+    }
+
+    function quitarCarrito(index) {
+      carrito.splice(index, 1);
+      renderCarrito();
+    }
+
+    // Juegos: sumas y restas
+    const sumas = 
+    [
+      { "a": 7,  "b": 1 },{ "a": 3,  "b": 5 },{ "a": 10, "b": 4 },{ "a": 6,  "b": 8 },{ "a": 2,  "b": 9 },
+      { "a": 15, "b": 3 },{ "a": 4,  "b": 7 },{ "a": 8,  "b": 2 },{ "a": 12, "b": 6 },{ "a": 9,  "b": 10 },
+      { "a": 11, "b": 1 },{ "a": 5,  "b": 14 },{ "a": 13, "b": 4 },{ "a": 7,  "b": 12 },{ "a": 3,  "b": 8 },
+      { "a": 10, "b": 5 },{ "a": 6,  "b": 11 },{ "a": 2,  "b": 13 },{ "a": 14, "b": 1 },{ "a": 9,  "b": 7 }
+    ];
+    const restas = 
+    [
+       { "a": 8,  "b": 3 }, { "a": 15, "b": 7 },{ "a": 20, "b": 5 },{ "a": 12, "b": 9 },{ "a": 10, "b": 4 },
+       { "a": 18, "b": 6 },{ "a": 25, "b": 10 },{ "a": 30, "b": 15 },{ "a": 22, "b": 11 },{ "a": 14, "b": 8 },
+       { "a": 17, "b": 9 },{ "a": 19, "b": 12 },{ "a": 21, "b": 14 },{ "a": 16, "b": 7 },{ "a": 13, "b": 6 },
+       { "a": 28, "b": 20 },{ "a": 24, "b": 18 },{ "a": 26, "b": 22 },{ "a": 23, "b": 5 },{ "a": 29, "b": 17 }
+    ];
+    let idxSuma = 0;
+    let idxResta = 0;
+
+    function mostrarSumas() {
+      const s = sumas[idxSuma % sumas.length];
+      document.getElementById("preguntaSuma").innerText = `¿Cuánto es ${s.a} + ${s.b}?`;
+    }
+    function verificarSuma() {
+      const s = sumas[idxSuma % sumas.length];
+      const resp = parseInt(document.getElementById("respuestaSuma").value);
+      document.getElementById("resultadoSuma").innerText = resp === s.a + s.b ? "¡Correcto!" : "Intenta de nuevo";
+      if (resp === s.a + s.b) { idxSuma++; mostrarSumas(); document.getElementById("respuestaSuma").value = ""; }
+    }
+
+    function mostrarRestas() {
+      const r = restas[idxResta % restas.length];
+      document.getElementById("preguntaResta").innerText = `¿Cuánto es ${r.a} - ${r.b}?`;
+    }
+    function verificarResta() {
+      const r = restas[idxResta % restas.length];
+      const resp = parseInt(document.getElementById("respuestaResta").value);
+      document.getElementById("resultadoResta").innerText = resp === r.a - r.b ? "¡Correcto!" : "Intenta de nuevo";
+      if (resp === r.a - r.b) { idxResta++; mostrarRestas(); document.getElementById("respuestaResta").value = ""; }
+    }
+
+    // Refranes
+    const refranes =
+    [
+       { "texto": "Más vale ___ en mano que ciento volando.", "respuesta": "pájaro" },
+       { "texto": "En boca cerrada no entran ___", "respuesta": "moscas" },
+       { "texto": "Al que madruga Dios lo ___", "respuesta": "ayuda" },
+       { "texto": "No hay mal que por ___ no venga.", "respuesta": "bien" },
+       { "texto": "Camarón que se duerme se lo lleva la ___.", "respuesta": "corriente" },
+       { "texto": "Dime con quién andas y te diré quién ___.", "respuesta": "eres" },
+       { "texto": "El que mucho abarca, poco ___.", "respuesta": "aprieta" },
+       { "texto": "A caballo regalado no se le mira el ___.", "respuesta": "diente" },
+       { "texto": "Ojos que no ven, corazón que no ___.", "respuesta": "siente" },
+       { "texto": "Más sabe el diablo por viejo que por ___.", "respuesta": "diablo" },
+       { "texto": "Cuando el río suena, agua ___.", "respuesta": "lleva" },
+       { "texto": "No hay peor ciego que el que no quiere ___.", "respuesta": "ver" },
+       { "texto": "Agua que no has de beber, déjala ___", "respuesta": "correr" },
+       { "texto": "El que ríe último, ríe ___.", "respuesta": "mejor" },
+       { "texto": "A palabras necias, oídos ___.", "respuesta": "sordos" },
+       { "texto": "Perro que ladra no ___.", "respuesta": "muerde" },
+       { "texto": "No por mucho madrugar amanece ___.", "respuesta": "más temprano" },
+       { "texto": "Barriga llena, corazón ___.", "respuesta": "contento" },
+       { "texto": "El hábito no hace al ___.", "respuesta": "monje" },
+       { "texto": "Cría cuervos y te sacarán los ___.", "respuesta": "ojos" }  
+    ];
+    let idxRefran = 0;
+
+    function mostrarRefran() {
+      document.getElementById("refranActual").innerText = refranes[idxRefran % refranes.length].texto;
+    }
+    function verificarRefran() {
+      const input = document.getElementById("respuestaRefran").value.trim().toLowerCase();
+      const correcto = refranes[idxRefran % refranes.length].respuesta;
+      document.getElementById("resultadoRefran").innerText = input === correcto ? "¡Muy bien!" : "Inténtalo de nuevo.";
+      if (input === correcto) {
+        idxRefran++;
+        mostrarRefran();
+        document.getElementById("respuestaRefran").value = "";
+      }
+    }
+
+    // Inicialización
+    window.onload = () => {
+      renderJuguetes();
+      mostrarSumas();
+      mostrarRestas();
+      mostrarRefran();
+    }
+
+    function mostrar(seccionId) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(seccionId).classList.add('active');
+    }
+    // Mostrar logo y mensaje al registrar
+    document.querySelector('#registro form').addEventListener('submit', function(e) {
+      e.preventDefault(); // Evita recargar la página
+
+      const logo = document.getElementById('logoRegistro');
+      const mensaje = document.getElementById('mensajeRegistro');
+      logo.style.display = 'block';
+      mensaje.style.display = 'block';
+      mensaje.textContent = '¡Registro completado exitosamente!';
+      // Opcional: Limpiar el formulario
+      e.target.reset();
+    });
+
+  </script>
+</body>
+</html>
