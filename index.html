@@ -157,6 +157,7 @@
       <input type="number" id="respuestaSuma">
       <button onclick="verificarSuma()">Verificar</button>
       <p id="resultadoSuma"></p>
+      <button onclick="mostrarMetodosPago()">¿Cómo pagar?</button>
     </div>
 
     <!-- RESTAS -->
@@ -361,6 +362,12 @@
       // Opcional: Limpiar el formulario
       e.target.reset();
     });
+
+    function mostrarMetodosPago() 
+    {
+      alert("Métodos de pago disponibles:\n\n- Tarjeta de crédito o débito\n- Transferencia bancaria\n- Pago en efectivo contra entrega\n- Pagos en línea (PSE, Nequi o Daviplata)");
+    }
+
 
   </script>
 </body>
