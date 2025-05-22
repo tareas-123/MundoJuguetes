@@ -104,7 +104,7 @@
     <p>En Mundo Juguetes, nuestro objetivo es garantizar un buen servicio con juguetes nuevos y juegos de aprendizaje para los niños. Queremos que tenga una excelente experiencia y que sea satisfactoria su entrada a nuestra respectiva empresa, porque para nosotros es un placer estar ahí para ayudarte y estar pendiente de lo que necesitas, con una seguridad y un respectivo registro para los padres y una variedad de juguetes y juegos para los niños.</p>
     <div class="imagen-container">
       <div onclick="mostrar('juguetes')">
-        <img src="https://cdn-icons-png.flaticon.com/512/3916/3916594.png" alt="Juguetes">
+        <img src="https://tiendademexico.online/wp-content/uploads/2020/06/Juguetes.jpg" alt="Juguetes">
         <p>Juguetes</p>
       </div>
       <div onclick="mostrar('carrito')">
@@ -138,13 +138,15 @@
       <button type="submit">Registrarse</button>
     </form>
   </section>
-
+  
   <!-- CARRITO -->
-  <section id="carrito">
-    <h2>Carrito de Compras</h2>
-    <div id="contenido-carrito"></div>
-    <h3 id="total">Total: $0</h3>
+   <section id="carrito">
+  <h2>Carrito de Compras</h2>
+  <div id="contenido-carrito"></div>
+  <h3 id="total">Total: $0</h3>
+  <button onclick="mostrarMetodosPago()">¿Cómo pagar?</button>
   </section>
+
 
   <!-- JUEGOS -->
   <section id="juegos">
@@ -157,7 +159,6 @@
       <input type="number" id="respuestaSuma">
       <button onclick="verificarSuma()">Verificar</button>
       <p id="resultadoSuma"></p>
-      <button onclick="mostrarMetodosPago()">¿Cómo pagar?</button>
     </div>
 
     <!-- RESTAS -->
@@ -362,13 +363,11 @@
       // Opcional: Limpiar el formulario
       e.target.reset();
     });
-
     function mostrarMetodosPago() 
     {
-      alert("Métodos de pago disponibles:\n\n- Tarjeta de crédito o débito\n- Transferencia bancaria\n- Pago en efectivo contra entrega\n- Pagos en línea (PSE, Nequi o Daviplata)");
+      alert("Métodos de pago disponibles:\n\n- Tarjeta de crédito o débito\n- Transferencia bancaria\n- Pago en efectivo contra entrega\n- Pagos en línea (PSE, Nequi o Daviplata)")
     }
-
 
   </script>
 </body>
-</html>
+</html
